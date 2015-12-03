@@ -252,9 +252,10 @@ class Boat {
     //// Fish before move:  check each squid.
     int caught=0;
     for (int i=0; i<many; i++ ) {
+     // if (school[i].hit( bounty.x, surface )) { it is not bounty.x it is only x
       if (school[i].hit( x, surface )) {
         caught += school[i].legs;
-        school[i].bottom();
+        school[i].bottom();  // EXTRA
       }
     }
     cargo += caught;    
@@ -293,6 +294,5 @@ class Boat {
     ellipse( x +20 -30*dx, surface-70, 8, 5 );
   }    
 }
-
 
 
