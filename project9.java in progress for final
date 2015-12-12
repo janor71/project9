@@ -1,0 +1,400 @@
+ // PROJECT 9 
+// REBECA JANOWICZ 
+// CST 112 EVENING 
+
+String title=  "CST112 PROJECT 9" ;
+String author=  "Rebeca Janowicz";
+String title1 =" Score=";
+//String news=" r= reset,  \n  and q= exit";
+String news=" r= reset, q = exit";
+
+String s="";
+//
+int many = 4;
+Octopi group[] = new Octopi[many];
+String octopinames[] = { "VICKY", "VIENNA", "SANTI", "NIKO"};
+//
+int few = 3;
+Boat catcher [] = new Boat [few];
+String boatnames[] = { "Dom", "Val", "Pam" };
+
+//VARIABLES
+float spacing;
+float sea;
+float sky = 200;  
+int score = 0;
+
+void setup() {
+  size(800,700);
+  smooth();
+  spacing = width/(many+1);
+  sky=height/4;
+  reset();
+}
+void reset() {
+  score = 0;
+  sea= random(height/4, height/2);
+ // spaces between octopus 
+  float x=  spacing;
+  for (int i=0; i<many; i++ ) {
+    group[i]=  new Octopi( octopinames[i], x ); // spaces between octopus
+    x += spacing;
+   }
+ // boats 
+  for (int i = 0; i < catcher.length; i++) {
+    catcher[i] = new Boat(boatnames[i]);
+  }
+}
+//// ADDING ALL THIS 
+// ARANGE BOATS BY X VALUES 
+void sortBoatX ( Boat [] b, int few ) {
+  for (int f = few; f > 1; f--) {
+    int k = 0;
+    for (int j =1; j < f; j ++) {
+      if ( b [j].x > b[k].x) k = j;
+    } 
+    swapBoat( b, f-1, k);
+  }
+}
+// ARRAGE BOATS BY DX VALUES FAST OR LOWEST
+void sortBoatDX(Boat[] b, int few) {     
+  for (int f = few; f > 1; f--) {
+    int k = 0;
+    for (int j = 1; j<f; j++) {
+      if (b[j].dx < b[k].dx) k = j;
+    }
+    swapBoat(b, f-1, k);
+  }
+}
+// ARRAGE BOAT HIGHER TO LOWER VALUES 
+void sortBoatCargo(Boat[] b, int few) {  
+  for (int f = few; f > 1; f--) {
+    int k = 0;
+    for (int j = 1; j<f; j++) {
+      if (b[j].cargo < b[k].cargo) k = j;
+    }
+    swapBoat(b, f-1, k);
+  }
+}
+// SWAP BOAT X,
+void swapBoat(Boat[] b, int k, int j) {  
+
+  Boat tmp;
+  tmp= b[k];
+  b[k] = b[j];
+  b[j] = tmp;
+} 
+
+// ARRAGE OCTUPI by X VALUES
+void sortOctopiX(Octopi[] o, int many) {
+
+  for (int m = many; m > 1; m--) {
+    int k = 0;
+    for (int j = 1; j<m; j++) {
+      if (o[j].x > o[k].x) k = j;
+    }
+    swapOctopi(o, m-1, k);
+  }
+}
+// ARRAGE OCTUPI BY Y VALUES 
+void sortOctopiY(Octopi[] o, int many) {
+
+  for (int m = many; m > 1; m--) {
+    int k = 0;
+    for (int j = 1; j<m; j++) {
+      if (o[j].y > o[k].y) k = j;
+    }
+    swapOctopi(o, m-1, k);
+  }
+}
+// ARRAGE OCTUPI BY DY VALUES 
+void sortOctopiDY(Octopi[] o, int many) {
+
+  for (int m = many; m > 1; m--) {
+    int k = 0;
+    for (int j = 1; j<m; j++) {
+      if (o[j].dy > o[k].dy) k = j;
+    }
+    swapOctopi(o, m-1, k);
+  }
+}
+// ARRAGE OCTUPI BY NUMBER OF LEGS
+void sortOctopiLegs(Octopi[] o, int many) {
+  for (int m = many; m > 1; m--) {
+    int k = 0;
+    for (int j = 1; j<m; j++) {
+      if (o[j].legs > o[k].legs) k = j;
+    }
+    swapOctopi(o, m-1, k);
+  }
+}
+void swapOctopi(Octopi[] o, int k, int j) {  
+
+  Octopi tmp;
+  tmp= o[k];
+  o[k] = o[j];
+  o[j] = tmp;
+}
+
+/// GONE ADDING  
+void draw () {
+  scene();
+  if (key >= 'A' && key <= 'Z') {
+    boatReport( 50, catcher, 1 );
+    fishReport( sky+50, group, group.length);
+
+  }
+  else  messages();
+   action();
+   display();
+}
+// draws background of sky and ocean
+void scene() {
+  background(152,162,247); //sky color
+  fill(167,253,255);       // sea color 
+  rect(0,sea,width,height-sea);
+ 
+}
+
+void messages() {
+  fill(0);
+  textSize(12);
+  text( title,120,10);
+  text( news,10,30);
+  text(s, 50,60);
+  text( author,10,10);
+  text(title1,10,60);
+  text(score,60,60);   //????
+  textSize(12);
+  text( "Hold B key to show position", 10, 80 );    // Instructions
+  text( "Hold D to show speed order", 10, 90 );
+  text( "Hold C key to show cargo order", 10, 100);
+  text( "Hold X key to show octupi position", 10, 110);
+  text( "Hold Y key to show octopi's heigth", 10, 120);
+  text( "Hold S key to show the speed ", 10, 130);
+  text( "Hold L key for leg order", 10, 140);   
+}
+ // Move octupus  & boats.
+void action() {
+  for (int i=0; i<many; i++ ) {  // octopus group
+    group[i].move();
+  }
+  for (int i=0; i < few; i++ ) {  // boat
+    catcher[i].move();
+  }
+}
+// show octopus and boat
+void display() {
+  float x=  spacing;
+  for (int i=0; i<many; i++ ) {
+    group[i].x=  x;
+    x += spacing;
+    group[i].show();
+  }
+   /// ***  boat display
+  for (int i=0; i < few; i++ ) {  // boat
+    catcher[i].show();
+  }
+}
+// Creates the report of boat properties
+void boatReport( float top, Boat[] b, int many) {
+  float x=60, y=top-20;
+  fill(252,202,120,252);
+  rect( 50,top-40, 290, 100 );
+  // Labels.
+  fill(150,0,0);
+  text( "Boat", x+10, y );
+  text( "Cargo", x+60, y );
+  text( "X", x+135, y );
+  text( "DX", x+215, y );
+  fill(0);
+  //
+  for (int i = 0; i < few; i++) {      
+    y += 20;    // Next line.
+    text( i, x, y );
+    text( b[i].name, x+20, y );
+    text( b[i].cargo, x+70, y );
+    text( b[i].x, x+125, y );
+    text( b[i].dx, x+205, y );
+  }  
+}
+// Creates the report of squid properties
+void fishReport( float top, Octopi[] o, int many ) {
+  float x=390, y=top-15;
+  fill(224,174,242,242);
+  rect( 370,top-210, 390, 130 );
+  // Labels.
+  fill(150,0,0);
+  text( "Octupi", x+10, 25 );
+  text( "Legs", x+70, 25 );
+  text( "X", x+145, 25 );
+  text( "Y", x+215, 25 );
+  text( "DY", x+315, 25);
+  fill(0);
+  for (int i=0; i<many; i++) {   
+   y += 20;    // next line
+    text( i, x, y -190);
+    text( o[i].name, x+10, y-190);
+    text( o[i].legs, x+70, y-190 );
+    text( o[i].x, x+135, y -190);
+    text( o[i].y, x+205, y -190);
+    text( o[i].dy, x+305, y -190);
+  }
+}
+
+//// OBJECTS ////
+class Octopi {
+  float x,y; //dx, dy;       // Coordinates
+  float dx=0,dy=0;  // Speed
+  float w=45,h=40;
+  int legs=10;      // Number of legs.
+  String name="";
+  float r,g,b;      // Color.
+  int count=0;
+  
+  // CONSTRUCTORS //
+  Octopi( String s, float x ) {
+    this.name=  s;
+    this.x=x;
+    bottom();
+   // octupi color
+    r=  random( 255);
+    g=  random( 190);
+    b=  random(100);
+  }
+  
+  //// Display the octopi.
+ void show() {
+    fill(r,g,b);
+    stroke(r,g,b);
+    ellipse( x,y, w,h );         // round top
+    rect( x-w/2,y, w,h/2 );      // flat bottom
+    // Legs   
+    float legX=  x-w/2, foot=0;
+    foot=  dy>=0 ? 0 : (y%45 > 23) ? 5 : -5;
+    strokeWeight(3);
+    // leg movement
+    for (int i=0; i<legs; i++) {
+      line( legX, y+h/2, legX+foot, 20+y+h/2 );
+      legX += w / (legs-1);
+    }
+    strokeWeight(3);
+    fill(120,249,252); // name and leg # color
+    text( name,x-w/2, y-10+h/2 ); 
+    text( legs, x+2-w/2, y+h/2 );
+    fill(255);
+    if (count>0) text( count, x, y+h/2 );
+ }
+   
+  //// Start again at bottom.  (Random speed.)
+  void bottom() {
+    y=  height-h;
+    dy=  -random( 0.1, 1.5 );
+    legs= int( random(1, 10.9) );
+  }
+  
+  //// METHODS:  move & show ////
+  void move() {
+    x += dx;
+    y += dy;
+    if (y < sea+15) { 
+    //if (y >height) { 
+      bottom();
+      count++;
+ 
+    }
+    else if (y < sky) { 
+      dy=  -3 * dy;        // goes down fast
+    }
+  }
+  //// Return true if near
+  boolean hit( float xx, float yy ) {
+    return dist( xx,yy, x,y ) < h;
+  }
+}
+
+// BOAT CLASS
+class Boat {
+  String name="";
+  float x, y, dx;
+  float r,g,b;
+  int cargo=0, caught=0;
+ 
+  
+  Boat(String n) {          // assign name, random x and dx
+    this.name=  n;
+   // x = random(0,width);
+    //dx = random(-2, 3);
+    
+    x= random(30, width - 60);
+    y = sea;
+    dx = random(-6, 6);
+    r = random(200);
+    g = random(255);
+    b = random(255);
+  }  
+ 
+  //// Draw the boat
+  void show() {
+    // Boat
+    fill(r,g,b);
+    noStroke();
+    rect( x, sea-20, 50, 30 ); // main body of boat
+    if (dx > 0) { 
+      triangle( x+50,sea+10, x+50, sea-20, x+70, sea-20 ); // front of boat
+    } else {     
+      triangle( x,sea+10, x,sea-20, x-20,sea-20); 
+
+    }
+    fill(g,b,r);
+    rect( x+12, sea-30, 25, 10 );  // Cabin.
+    fill(0);
+    rect( x+20, sea-40, 10, 10 );      // Smokestack.
+    // Display name & cargo.
+    fill(255);
+    text( name, x+15, sea-10 );
+    fill(0);
+    text( cargo, x+20, sea+5 );
+    fill( 50,50,50, 200 );
+    ellipse( x +20 -10*dx, sea-50, 20, 20 );
+    ellipse( x +20 -20*dx, sea-60, 15, 10 );
+    ellipse( x +20 -30*dx, sea-70, 8, 5 );
+  }    
+  // MOVE 
+ void move() {          
+    int caught=0;
+    x += dx;    
+    //// Fish before move:  check each octopi.
+    for (int i=0; i<many; i++ ) {
+      if (group[i].hit( x, sky )) {
+        caught += group[i].legs;
+        group[i].bottom();
+      }
+    }
+    cargo += caught;          
+    
+    if (caught>0) x += 2*dx;     //  Jump after catching octopi   
+    
+    if (x<0) {
+      score += cargo;            // Add cargo overall score
+      cargo=0;
+      dx = random( 1, 3 );     
+    }    
+    if (x>width)  {
+      dx = -random( 0.5, 3 );    // return at a slower speed
+    }
+  }  
+}
+// key functions
+void keyPressed() {
+  if (key == 'r') reset();
+  if(key == 'q') exit();
+  if (key == 'B') { sortBoatX(catcher, catcher.length); } // arrages the x position
+  if (key == 'D') { sortBoatDX(catcher, catcher.length ); } // arragnges boat's speed
+  if (key == 'C') { sortBoatCargo(catcher, catcher.length ); } // arranges cargo 
+  if (key == 'X') { sortOctopiX(group, group.length); } // Sort position (x)
+  if (key == 'Y') { sortOctopiY(group, group.length); } // Sort height (y)
+  if (key == 'S') { sortOctopiDY(group, group.length); } // Sort speed (dy)
+  if (key == 'L') { sortOctopiLegs(group, group.length); }  // Sort # legs
+ 
+}
