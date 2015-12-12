@@ -1,9 +1,9 @@
- // PROJECT 9 
+// PROJECT 9 
 // REBECA JANOWICZ 
 // CST 112 EVENING 
 
-String title=  "CST112 PROJECT 9" ;
-String author=  "Rebeca Janowicz";
+String title=  "CST112 PROJECT 9," ;
+String author=  "Rebeca Janowicz!";
 String title1 =" Score=";
 //String news=" r= reset,  \n  and q= exit";
 String news=" r= reset, q = exit";
@@ -142,7 +142,7 @@ void draw () {
   if (key >= 'A' && key <= 'Z') {
     boatReport( 50, catcher, 1 );
     fishReport( sky+50, group, group.length);
-
+    messages();
   }
   else  messages();
    action();
@@ -159,20 +159,20 @@ void scene() {
 void messages() {
   fill(0);
   textSize(12);
-  text( title,120,10);
-  text( news,10,30);
-  text(s, 50,60);
-  text( author,10,10);
-  text(title1,10,60);
-  text(score,60,60);   //????
+  text( title,5,690);
+  text( news,5,660);
+ // text(s,45,660);
+  text( author,120,690);
+  text(title1,5,sea);
+  text(score,55,sea);   //????
   textSize(12);
-  text( "Hold B key to show position", 10, 80 );    // Instructions
-  text( "Hold D to show speed order", 10, 90 );
-  text( "Hold C key to show cargo order", 10, 100);
-  text( "Hold X key to show octupi position", 10, 110);
-  text( "Hold Y key to show octopi's heigth", 10, 120);
-  text( "Hold S key to show the speed ", 10, 130);
-  text( "Hold L key for leg order", 10, 140);   
+  text( "Hold B key to show position", 5, 550 );    // Instructions
+  text( "Hold D to show speed order", 5,565 );
+  text( "Hold C key to show cargo order", 5, 585);
+  text( "Hold X key to show octupi position", 5, 600 );
+  text( "Hold Y key to show octopi's heigth", 5, 615);
+  text( "Hold S key to show the speed ", 5, 631);
+  text( "Hold L key for leg order", 5, 645);   
 }
  // Move octupus  & boats.
 void action() {
@@ -263,7 +263,7 @@ class Octopi {
     b=  random(100);
   }
   
-  //// Display the octopi.
+  //// Display the octupi.
  void show() {
     fill(r,g,b);
     stroke(r,g,b);
@@ -304,7 +304,7 @@ class Octopi {
  
     }
     else if (y < sky) { 
-      dy=  -3 * dy;        // goes down fast
+      dy=  -3 * dy;        // Descend fast!
     }
   }
   //// Return true if near
