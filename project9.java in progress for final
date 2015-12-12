@@ -360,30 +360,27 @@ class Boat {
     ellipse( x +20 -20*dx, sea-60, 15, 10 );
     ellipse( x +20 -30*dx, sea-70, 8, 5 );
   }    
-  // MOVE 
- void move() {          
+  // MOVE  AND SCORE
+ void move() {   
+  
     int caught=0;
-    x += dx;    
-    //// Fish before move:  check each octopi.
-    for (int i=0; i<many; i++ ) {
-      if (group[i].hit( x, sky )) {
-        caught += group[i].legs;
-        group[i].bottom();
+    x += dx;   
+    if (x < 0 || x > width)  dx = -random( 0.5, 3 ); 
+    
+    for (int i = 0; i < group.length; i++) { 
+      if (dist(x, y, group[i].x, group[i].y) < 40) { 
+        cargo += group[i].legs; 
+        group[i].bottom(); //
       }
-    }
-    cargo += caught;          
+    } 
     
-    if (caught>0) x += 2*dx;     //  Jump after catching octopi   
-    
-    if (x<0) {
-      score += cargo;            // Add cargo overall score
+    if (x < 0) {
+      score += cargo;  
       cargo=0;
+      caught = caught + cargo;
       dx = random( 1, 3 );     
     }    
-    if (x>width)  {
-      dx = -random( 0.5, 3 );    // return at a slower speed
-    }
-  }  
+ }  
 }
 // key functions
 void keyPressed() {
